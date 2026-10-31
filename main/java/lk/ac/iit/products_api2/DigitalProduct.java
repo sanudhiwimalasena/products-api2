@@ -1,6 +1,8 @@
 package lk.ac.iit.products_api2;
 
-public class DigitalProduct extends Product {
+public class DigitalProduct extends Product implements Discountable{
+
+    private double discountedPrice;
 
     private String downloadUrl;
     private double fileSizeMB;
@@ -28,6 +30,21 @@ public class DigitalProduct extends Product {
 
     public void setFileSizeMB(double fileSizeMB){
         this.fileSizeMB = fileSizeMB;
+    }
+
+    @Override
+    public String getSummary(){
+        return getName() + " -$" + getPrice() + " | download: " + downloadUrl;
+    }
+
+    @Override
+    public void applyDiscount(double rate){
+        discountedPrice = getPrice() * (1-rate);
+    }
+
+    @Override
+    public double getDiscountedPrice(){
+        return 0;
     }
 
 

@@ -1,6 +1,8 @@
 package lk.ac.iit.products_api2;
 
 import org.springframework.stereotype.Service;
+
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,16 +12,6 @@ public class ProductService {
 
     private List<Product> products = new ArrayList<>();
     private Long nextId = 1L;
-
-    public ProductService() {
-        // Task 10: Add one object of each subclass
-        products.add(new DigitalProduct(
-                nextId++, "Clean Code (E-book)", 29.99,
-                "/downloads/clean-code.pdf", 4.2));
-
-        products.add(new PhysicalProduct(nextId++, "27-inch Monitor", 249.99,
-                5.4, "61cm x 41cm x 18cm"));
-    }
 
     public List<Product> getAllProducts() {
         return products;
@@ -47,4 +39,15 @@ public class ProductService {
                 .toList();
     }
 
+    public List<String> getAllSummaries(){
+        List<String> summaries = new ArrayList<>();
+        for (Product p: products){
+            summaries.add(p.getSummary());
+
+            if(p instanceof Discountable discountable){
+                discountable.applyDiscount(0.10);
+            }
+        }
+        return summaries;
+    }
 }
